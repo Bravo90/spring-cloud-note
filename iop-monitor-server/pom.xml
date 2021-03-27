@@ -28,8 +28,8 @@
 
         <dependency>
             <groupId>sun.study.note</groupId>
-            <artifactId>common</artifactId>
-            <version>0.0.1</version>
+            <artifactId>iop-common</artifactId>
+           <version>0.0.1</version>
         </dependency>
     </dependencies>
 </project>
