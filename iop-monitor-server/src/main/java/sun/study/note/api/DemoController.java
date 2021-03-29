@@ -3,7 +3,9 @@ package sun.study.note.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import sun.study.note.base.BaseResult;
 import sun.study.note.service.DemoService;
+import sun.study.note.service.MoniterService;
 
 /**
  * DemoController:
@@ -15,15 +17,18 @@ import sun.study.note.service.DemoService;
 public class DemoController {
 
     @Autowired
-    private DemoService  demoService;
+    private DemoService demoService;
+
+    @Autowired
+    private MoniterService moniterService;
 
     @GetMapping("/demo")
-    public String demo(){
+    public BaseResult demo() {
         return demoService.warnService();
     }
 
     @GetMapping("/demo2")
-    public String demo2(){
-        return "111111";
+    public BaseResult demo2() {
+        return moniterService.warning();
     }
 }

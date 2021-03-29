@@ -1,7 +1,9 @@
 package sun.study.note.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.client.RestTemplate;
 import sun.study.note.base.BaseResult;
 
@@ -11,13 +13,11 @@ import sun.study.note.base.BaseResult;
  * @author: sunzhen
  * Date: 2021-03-26
  */
-@Service
-public class DemoService {
-    @Autowired
-    private RestTemplate restTemplate;
 
-    public BaseResult warnService() {
-        BaseResult result = restTemplate.getForObject("http://monitor-server/waring", BaseResult.class);
-        return result;
-    }
+@FeignClient(name = "monitor-server")
+public interface MoniterService {
+
+    @GetMapping("/waring")
+    BaseResult warning();
+
 }
