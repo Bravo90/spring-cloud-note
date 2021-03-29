@@ -1,19 +1,20 @@
 package sun.study.note.api;
 
+import com.netflix.hystrix.HystrixCommandGroupKey;
+import com.netflix.hystrix.HystrixCommandKey;
+import com.netflix.hystrix.HystrixThreadPoolKey;
+import com.netflix.hystrix.HystrixThreadPoolProperties;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.config.CronTask;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sun.study.note.base.BaseResult;
+import sun.study.note.hytrix.WarningHystrix;
 import sun.study.note.task.ScheduledTask;
 import sun.study.note.task.TaskRegistrar;
-import sun.study.note.task.job.CronJob;
 import sun.study.note.taskjob.PrintDateCronJob;
 
-import java.util.Date;
-import java.util.concurrent.ScheduledFuture;
 
 /**
  * WarningController:
@@ -23,7 +24,6 @@ import java.util.concurrent.ScheduledFuture;
  */
 @RestController
 public class WarningController {
-
 
     @Autowired
     private TaskRegistrar taskRegistrar;
@@ -43,14 +43,13 @@ public class WarningController {
             })
     public BaseResult warning() {
         try {
-            Thread.sleep(900);
+            Thread.sleep(500);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
         System.out.println(Thread.currentThread().getName() + " : warning...");
         return BaseResult.successMsg("warning success！");
     }
-
 
     @GetMapping("/waring2")
     @HystrixCommand(fallbackMethod = "fallWay2",
@@ -76,7 +75,7 @@ public class WarningController {
             groupKey = "testGroup",
             commandProperties = {
                     @HystrixProperty(name = "execution.isolation.strategy", value = "THREAD"),
-                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1000")
+                    @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "500")
             },
             threadPoolProperties = {
                     @HystrixProperty(name = "coreSize", value = "2"),
@@ -86,12 +85,27 @@ public class WarningController {
         try {
             Thread.sleep(500);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
         }
         System.out.println("------------------------------------------" + Thread.currentThread().getName() + " : warning...");
         return BaseResult.successMsg("warning3 success！");
     }
 
+
+    @GetMapping("/waring4")
+    public BaseResult warning4() {
+
+        com.netflix.hystrix.HystrixCommand.Setter setter =
+                com.netflix.hystrix.HystrixCommand.Setter
+                        .withGroupKey(HystrixCommandGroupKey.Factory.asKey("abx"))
+                        .andCommandKey(HystrixCommandKey.Factory.asKey("methodA"))
+                        .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey("t4"))
+                        .andThreadPoolPropertiesDefaults(HystrixThreadPoolProperties.Setter().withCoreSize(2));
+
+        WarningHystrix warning = new WarningHystrix(setter);
+        warning.execute();
+        return BaseResult.successMsg("warning4 success！");
+    }
 
     @GetMapping("/scheduling")
     public BaseResult scheduling() throws InterruptedException {
