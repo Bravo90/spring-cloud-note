@@ -8,6 +8,7 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sun.study.note.base.BaseResult;
 import sun.study.note.hytrix.WarningHystrix;
@@ -23,6 +24,7 @@ import sun.study.note.taskjob.PrintDateCronJob;
  * Date: 2021-03-26
  */
 @RestController
+@RequestMapping("/warning")
 public class WarningController {
 
     @Autowired

@@ -16,7 +16,7 @@
         <module>iop-dataprocess-server</module>
         <module>iop-monitor-server</module>
         <module>iop-databoard-server</module>
-        <module>iop-scheduler-server</module>
+        <module>test-feigen-ribbon-hystrix</module>
     </modules>
 
     <properties>

@@ -1,10 +1,7 @@
 package sun.study.note.base;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -42,6 +39,10 @@ public class BaseResult implements Serializable {
         return success(DEFAULT_OK_CODE, data);
     }
 
+    public static BaseResult success(Object data, String msg) {
+        return success(DEFAULT_OK_CODE, msg, data);
+    }
+
     public static BaseResult success(int code, Object data) {
         return success(code, "", data);
     }
@@ -65,4 +66,5 @@ public class BaseResult implements Serializable {
     public static BaseResult error(int code, String msg) {
         return new BaseResult(code, FAIL, msg, null);
     }
+
 }
