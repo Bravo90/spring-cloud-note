@@ -15,9 +15,19 @@ eureka:
 feign:
   hystrix:
     enabled: true
+
 hystrix:
   threadpool:
     default:
-      coreSize: 10
-      maximumSize: 10
+      coreSize: 100
+      maximumSize: 100
       maxQueueSize: 0
+  command:
+    # default:全局有效;可以指定HystrixCommonKey有效，格式:类名#方法名(参数类型)
+    MonitorService#getData():
+      execution:
+        timeout:
+          enable: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 300
