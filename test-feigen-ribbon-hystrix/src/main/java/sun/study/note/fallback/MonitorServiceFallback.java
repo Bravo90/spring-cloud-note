@@ -2,7 +2,7 @@ package sun.study.note.fallback;
 
 import org.springframework.stereotype.Component;
 import sun.study.note.base.BaseResult;
-import sun.study.note.feign.MonitorService;
+import sun.study.note.service.MonitorService;
 
 /**
  * MonitorServiceFallback:
@@ -26,8 +26,8 @@ public class MonitorServiceFallback implements MonitorService {
     }
 
     @Override
-    public String getString(int code) {
+    public BaseResult getString(int code) {
         System.err.println("超时熔断");
-        return code + "getString(),超时熔断";
+        return BaseResult.error("code = " + code + ",getString(),超时熔断");
     }
 }

@@ -1,4 +1,4 @@
-package sun.study.note.ribbion;
+package sun.study.note.apiclient.ribbion;
 
 /**
  * RibbionService:

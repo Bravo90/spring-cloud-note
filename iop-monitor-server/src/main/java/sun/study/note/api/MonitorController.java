@@ -18,7 +18,6 @@ import sun.study.note.pojo.WarningMsg;
 @RequestMapping("/monitor")
 public class MonitorController {
 
-
     @Value("${server.port}")
     private int port;
 
@@ -48,13 +47,12 @@ public class MonitorController {
     }
 
     @GetMapping("/getString")
-    public String getString(@RequestParam("code") int code) {
+    public BaseResult getString(@RequestParam("code") int code) {
         try {
             Thread.sleep(500);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
-        return code + "getString()调用成功！端口号：" + port;
-
+        return BaseResult.successMsg("code = " + code + ",getString()调用成功！端口号：" + port);
     }
 }

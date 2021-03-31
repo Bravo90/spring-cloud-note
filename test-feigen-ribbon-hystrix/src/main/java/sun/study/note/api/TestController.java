@@ -7,9 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import sun.study.note.base.BaseResult;
-import sun.study.note.feign.MonitorService;
-
-import java.util.Currency;
+import sun.study.note.service.MonitorService;
 
 /**
  * DemoController:
@@ -35,7 +33,7 @@ public class TestController {
     }
 
     @GetMapping("/getString")
-    public String getString(@RequestParam("code") int code) {
+    public BaseResult getString(@RequestParam("code") int code) {
         return monitorService.getString(code);
     }
 
