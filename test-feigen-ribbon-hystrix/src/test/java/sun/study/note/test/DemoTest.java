@@ -1,5 +1,6 @@
 package sun.study.note.test;
 
+import feign.Response;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.cloud.openfeign.ribbon.LoadBalancerFeignClient;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import sun.study.note.TestApplication;
 
@@ -29,17 +31,27 @@ public class DemoTest {
     @Autowired
     private LoadBalancerClient loadBalancerClient;
 
+    private LoadBalancerFeignClient loadBalancerFeignClient;
+
     @Test
-    public void test1() {
-        List<ServiceInstance> monitorServiceInstances = discoveryClient.getInstances("monitor-server");
-        String url = monitorServiceInstances.get(0).getUri().toString();
-        System.err.println(url);
+    public void eurekaTest() {
+        List<ServiceInstance> ServiceInstances = discoveryClient.getInstances("monitor-server");
+        for (ServiceInstance serviceInstance:ServiceInstances){
+            int port = serviceInstance.getPort();
+            System.out.println(port);
+        }
     }
 
     @Test
-    public void test2() {
+    public void ribbonTest() {
         ServiceInstance serviceInstance = loadBalancerClient.choose("monitor-server");
         URI uri = serviceInstance.getUri();
         System.err.println(uri.toString());
+    }
+
+    @Test
+    public void feignTest(){
+
+
     }
 }

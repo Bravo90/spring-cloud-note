@@ -6,6 +6,6 @@ package sun.study.note.apiclient.ribbion;
  * @author: sunzhen
  * Date: 2021-03-30
  */
-public class RibbionService {
+public class RibbonClient {
 
 }

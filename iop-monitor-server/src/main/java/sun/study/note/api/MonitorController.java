@@ -48,11 +48,7 @@ public class MonitorController {
 
     @GetMapping("/getString")
     public BaseResult getString(@RequestParam("code") int code) {
-        try {
-            Thread.sleep(500);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
+        System.out.println("geString==>prot:" + port);
         return BaseResult.successMsg("code = " + code + ",getString()调用成功！端口号：" + port);
     }
 }
